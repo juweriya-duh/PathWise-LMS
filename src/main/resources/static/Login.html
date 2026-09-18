@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in — Pathwise</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <a href="index.html" class="nav-brand">Pathwise</a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="register.html" class="nav-cta">Sign up</a>
+    </div>
+</nav>
+
+<div class="auth-wrap">
+
+    <div class="auth-panel">
+        <h2>Welcome back.</h2>
+        <p>Pick up right where you left off — your courses and progress are waiting.</p>
+    </div>
+
+    <div class="auth-form-side">
+        <form class="auth-form" id="loginForm">
+            <h1>Log in</h1>
+            <p class="sub">Enter your details to continue.</p>
+
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Log in</button>
+            <p class="form-error" id="loginError">Incorrect email or password.</p>
+
+            <p class="auth-switch">New here? <a href="register.html">Create an account</a></p>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    // Submit handler — points at the login endpoint once it exists.
+    // Adjust the URL below to match whatever you build the controller at.
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const errorEl = document.getElementById('loginError');
+        errorEl.style.display = 'none';
+
+        const payload = {
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        };
+
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) {
+                throw new Error('Login failed');
+            }
+
+            const user = await res.json();
+
+            // Simple client-side session marker until real auth/session handling is built.
+            // role is expected to come back from the login response (e.g. "STUDENT" / "INSTRUCTOR").
+            if (user.role === 'INSTRUCTOR') {
+                window.location.href = 'instructor-dashboard.html';
+            } else {
+                window.location.href = 'student-dashboard.html';
+            }
+        } catch (err) {
+            errorEl.style.display = 'block';
+        }
+    });
+</script>
+
+</body>
+</html>
