@@ -28,12 +28,12 @@ public class EnrollmentService {
         return enrollmentRepository.save(enrollment);
     }
 
-    public List<Enrollment> getEnrollmentByUsers(Long userId) {
+    public List<Enrollment> getEnrollmentsByUsers(Long userId) {
         List<Enrollment> enrolledList = enrollmentRepository.findByUserId(userId);
         return enrolledList;
     }
 
-    public List<Enrollment> getEnrollmentByCourses(Long courseId) {
+    public List<Enrollment> getEnrollmentsByCourse(Long courseId) {
         List<Enrollment> enrolledList = enrollmentRepository.findByCourseId(courseId);
         return enrolledList;
     }
@@ -45,5 +45,6 @@ public class EnrollmentService {
         }
         return true;
     }
+
 
 }

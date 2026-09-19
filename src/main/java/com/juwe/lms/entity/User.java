@@ -21,6 +21,16 @@ public class User {
 
     private boolean isDeleted = false;
 
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public User(Long id, String name, String email, Role role, boolean isDeleted) {
         this.id = id;
         this.name = name;
@@ -72,4 +82,6 @@ public class User {
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
+
+
 }
